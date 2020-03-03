@@ -1,7 +1,7 @@
 FROM alpine:3.10
 
 ENV KUBE_LATEST_VERSION="v1.13.10"
-ENV KUBECONFIG="/kubeconfig"
+ENV KUBECONFIG="/etc/k8s/kubeconfig"
 
 RUN apk add --update ca-certificates \
  && apk add --update -t deps curl \
@@ -11,6 +11,8 @@ RUN apk add --update ca-certificates \
  && rm /var/cache/apk/*
 
 ADD run.sh /usr/bin
+ADD init-session.sh /usr/bin
 RUN chmod +x /usr/bin/run.sh
+RUN chmod +x /usr/bin/init-session.sh
 
 CMD ["/usr/bin/run.sh"]

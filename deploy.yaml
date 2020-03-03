@@ -16,6 +16,7 @@ rules:
   - secrets
   - nodes
   - pods
+  - pods/log
   - services
   - resourcequotas
   - replicationcontrollers
@@ -51,6 +52,10 @@ rules:
 - apiGroups: ["metrics.k8s.io"]
   resources: ["pods", "nodes"]
   verbs: ["get", "list", "watch"]
+- apiGroups: [""]
+  resources: ["pods/exec"]
+  verbs: ["create"]
+
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -91,13 +96,8 @@ spec:
     spec:
       serviceAccount: scmp
       containers:
-      - env:
-        - name: APISERVER
-          value: "https://10.xx.xx.72:5443"
-        - name: CLUSTER
-          value: "sgt-cce-prod"
-        image: iyacontrol/kubectl:v0.0.1
-        imagePullPolicy: Always
+      - image: iyacontrol/kubectl:v0.0.2
+        imagePullPolicy: IfNotPresent
         name: kubectl
         resources:
           limits:
