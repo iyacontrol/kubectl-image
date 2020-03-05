@@ -1,11 +1,12 @@
-FROM alpine:3.10
+FROM alpine:3.11
 
 ENV KUBE_LATEST_VERSION="v1.13.10"
 ENV KUBECONFIG="/etc/k8s/kubeconfig"
 
 RUN apk add --update ca-certificates \
- && apk add --update -t deps curl bash  bash-completion \
- && echo "source <(kubectl completion bash)" >> ~/.bashrc \
+ && apk add --update -t deps curl git zsh \
+ && sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" \
+ && echo 'source <(kubectl completion zsh)'> ~/.zshrc \
  && curl -L https://storage.googleapis.com/kubernetes-release/release/${KUBE_LATEST_VERSION}/bin/linux/amd64/kubectl -o /usr/local/bin/kubectl \
  && chmod +x /usr/local/bin/kubectl \
 #  && apk del --purge deps \
@@ -13,5 +14,7 @@ RUN apk add --update ca-certificates \
 
 ADD run.sh /usr/bin
 ADD init-session.sh /usr/bin
+
+WORKDIR /root
 
 CMD ["/usr/bin/run.sh"]
