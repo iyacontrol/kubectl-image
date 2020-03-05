@@ -18,7 +18,21 @@ kubectl config --kubeconfig=$KUBECONFIG \
 kubectl config --kubeconfig=$KUBECONFIG \
     set-context scmp-context \
     --cluster=$CLUSTER \
+    --namespace=$NAMESPACE \
     --user=scmp
+
+if [[ -z $NAMESPACE ]]; then
+    kubectl config --kubeconfig=$KUBECONFIG \
+    set-context scmp-context \
+    --cluster=$CLUSTER \
+    --user=scmp
+else
+    kubectl config --kubeconfig=$KUBECONFIG \
+    set-context scmp-context \
+    --cluster=$CLUSTER \
+    --namespace=$NAMESPACE \
+    --user=scmp
+fi
 
 kubectl config --kubeconfig=$KUBECONFIG \
     use-context scmp-context
