@@ -25,6 +25,7 @@ if [[ -z $NAMESPACE ]]; then
     kubectl config --kubeconfig=$KUBECONFIG \
     set-context scmp-context \
     --cluster=$CLUSTER \
+    --namespace=default \
     --user=scmp
 else
     kubectl config --kubeconfig=$KUBECONFIG \
