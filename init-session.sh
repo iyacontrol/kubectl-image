@@ -15,7 +15,7 @@ kubectl config --kubeconfig=$KUBECONFIG \
 kubectl config --kubeconfig=$KUBECONFIG \
     set-credentials scmp --token=$BEARER_TOKEN
 
-if [[ -z $NAMESPACE ]]; then
+if [[ -z $CURRENTNAMESPACE ]]; then
     kubectl config --kubeconfig=$KUBECONFIG \
     set-context scmp-context \
     --cluster=$CLUSTER \
@@ -25,7 +25,7 @@ else
     kubectl config --kubeconfig=$KUBECONFIG \
     set-context scmp-context \
     --cluster=$CLUSTER \
-    --namespace=$NAMESPACE \
+    --namespace=$CURRENTNAMESPACE \
     --user=scmp
 fi
 
